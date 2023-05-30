@@ -5,7 +5,7 @@ process BEDTOOLS_INTERSECT {
     conda "bioconda::bedtools=2.30.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/bedtools:2.30.0--hc088bd4_0' :
-        'quay.io/biocontainers/bedtools:2.30.0--hc088bd4_0' }"
+        'biocontainers/bedtools:2.30.0--hc088bd4_0' }"
 
     input:
     tuple val(meta), path(intervals1), path(intervals2)
@@ -44,7 +44,7 @@ process BEDTOOLS_INTERSECT {
 
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def extension = tast.ext.suffix ?: "bed"
+    extension = task.ext.suffix ?: "bed"
     if ("$intervals1" == "${prefix}.${extension}" ||
         "$intervals2" == "${prefix}.${extension}")
         error "Input and output names are the same, use \"task.ext.prefix\" to disambiguate!"

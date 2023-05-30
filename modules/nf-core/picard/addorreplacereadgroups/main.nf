@@ -5,7 +5,7 @@ process PICARD_ADDORREPLACEREADGROUPS {
     conda "bioconda::picard=3.0.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/picard:3.0.0--hdfd78af_1' :
-        'quay.io/biocontainers/picard:3.0.0--hdfd78af_1' }"
+        'biocontainers/picard:3.0.0--hdfd78af_1' }"
 
     input:
     tuple val(meta), path(bam)
@@ -37,7 +37,7 @@ process PICARD_ADDORREPLACEREADGROUPS {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        picard: \$(picard AddOrReplaceReadGroups --version 2>&1 | grep -o -E '[[:digit:]]+\\.[[:digit:]]+\\.[[:digit:]]+')
+        picard: \$(picard AddOrReplaceReadGroups --version 2>&1 | grep -o 'Version:.*' | cut -f2- -d:)
     END_VERSIONS
     """
 
